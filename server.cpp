@@ -16,7 +16,6 @@ void server() {
     char buffer[MAXLINE];
     struct sockaddr_in server_addr;
     struct sockaddr_in client_addr;
-    char *response = "Response from server";
 
     socklen_t size;
 
@@ -43,28 +42,28 @@ void server() {
 
     cout <<"\nSocket bound" << endl;
 
-    socklen_t addr_len = sizeof(client_addr);
+    while (true) {
+        socklen_t addr_len = sizeof(client_addr);
+        int nbytes = recvfrom(
+            sockfd,
+            (char *)buffer,
+            MAXLINE,
+            MSG_WAITALL,
+            (struct sockaddr *) &client_addr,
+            &addr_len
+        );
 
-    int nbytes = recvfrom(
-        sockfd,
-        (char *)buffer,
-        MAXLINE,
-        MSG_WAITALL,
-        (struct sockaddr *) &client_addr,
-        &addr_len
-    );
+        cout << "\nClient: " << buffer << endl;
 
-    buffer[nbytes] = '\0';
-    cout << "\nClient: " << buffer << endl;
+        sendto(
+            sockfd,
+            buffer,
+            nbytes,
+            MSG_CONFIRM,
+            (struct sockaddr *) &client_addr,
+            addr_len
+        );
 
-    sendto(
-        sockfd,
-        (const char *)response,
-        strlen(response),
-        MSG_CONFIRM,
-        (struct sockaddr *) &client_addr,
-        addr_len
-    );
-
-    cout << "\nResponse sent" << endl;
+        cout << "\nResponse sent" << endl;
+    }
 }
