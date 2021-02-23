@@ -1,7 +1,9 @@
 #include <iostream>
 
+#include "server.cpp"
+
 int main()
 {
-  std::cout << "hello world";
+  server();
   return 0;
 }

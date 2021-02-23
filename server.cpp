@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int main() {
+void server() {
     int MAXLINE = 1024;
     int PORT = 8080;
 
