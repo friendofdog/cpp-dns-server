@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "query.cpp"
+
 using namespace std;
 
 void server() {
@@ -54,6 +56,8 @@ void server() {
     );
 
     cout << "\nClient: " << buffer << endl;
+
+    getQueryHeader(buffer);
 
     sendto(
       sockfd,
