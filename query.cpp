@@ -21,7 +21,7 @@ int getBits(const char*& buffer) throw () {
   return value;
 }
 
-void getQueryHeader(const char* buffer) {
+void getQueryHeader(const char*& buffer) {
   int id = getBits(buffer);
 
   uint fields = getBits(buffer);
@@ -45,4 +45,24 @@ void getQueryHeader(const char* buffer) {
   cout << "\nanCount: " << anCount << endl;
   cout << "\nnsCount: " << nsCount << endl;
   cout << "\narCount: " << arCount << endl;
+}
+
+void getQueryBody(const char*& buffer) {
+  std::string qName;
+
+  int length = *buffer++;
+  while (length != 0) {
+    for (int i = 0; i < length; i++) {
+      char c = *buffer++;
+      qName.append(1, c);
+    }
+    length = *buffer++;
+    if (length != 0) qName.append(1,'.');
+  }
+  cout << "\nqName: " << qName << endl;
+}
+
+void getQuery (const char* buffer) {
+  getQueryHeader(buffer);
+  getQueryBody(buffer);
 }

@@ -57,7 +57,7 @@ void server() {
 
     cout << "\nClient: " << buffer << endl;
 
-    getQueryHeader(buffer);
+    getQuery(buffer);
 
     sendto(
       sockfd,
