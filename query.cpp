@@ -12,19 +12,19 @@ static const uint RD_MASK = 0x0100;
 static const uint RA_MASK = 0x8000;
 static const uint RCODE_MASK = 0x000F;
 
-int getBits(const char* buffer, int offset) throw () {
-  buffer += offset;
+int getBits(const char*& buffer) throw () {
   int value = static_cast<uchar> (buffer[0]);
   value = value << 8;
   value += static_cast<uchar> (buffer[1]);
+  buffer += 2;
 
   return value;
 }
 
-void getQueryHeader(char* buffer) {
-  int id = getBits(buffer, 0);
+void getQueryHeader(const char* buffer) {
+  int id = getBits(buffer);
 
-  uint fields = getBits(buffer, 2);
+  uint fields = getBits(buffer);
   uint qr = fields & QR_MASK;
   uint opcode = fields & OPCODE_MASK;
   uint aa = fields & AA_MASK;
@@ -33,10 +33,10 @@ void getQueryHeader(char* buffer) {
   uint ra = fields & RA_MASK;
   uint rcode = fields & RCODE_MASK;
 
-  int qdCount = getBits(buffer, 4);
-  int anCount = getBits(buffer, 6);
-  int nsCount = getBits(buffer, 8);
-  int arCount = getBits(buffer, 10);
+  int qdCount = getBits(buffer);
+  int anCount = getBits(buffer);
+  int nsCount = getBits(buffer);
+  int arCount = getBits(buffer);
 
   cout << "\nID: " << id << endl;
   cout << "\nFields: " << fields << endl;
