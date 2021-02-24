@@ -21,3 +21,7 @@ test:
 	@dig @127.0.0.1 example.com -p 8080
 	@kill `cat ${BUILDDIR}/${SERVERPID}` && rm ${BUILDDIR}/${SERVERPID}
 	@rm ${BUILDDIR}/${TESTCOMPILED}
+
+clean:
+	@echo "Clearing out build directory"
+	@rm -rf ${BUILDDIR}
