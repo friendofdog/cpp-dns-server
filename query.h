@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -8,8 +9,42 @@ class Query {
     void parseQueryBody(const char*& buffer);
     int getBits(const char*& buffer) throw();
 
-    int returnId() {
+    int getId() {
       return m_id;
+    }
+
+    auto getFlags() {
+      map<string, int> flags {
+        {"aa", m_aa},
+        {"fields", m_fields},
+        {"opcode", m_opcode},
+        {"qr", m_qr},
+        {"ra", m_ra},
+        {"rcode", m_rcode},
+        {"rd", m_rd},
+        {"tc", m_tc},
+      };
+      return flags;
+    }
+
+    int getQdCount() {
+      return m_qdCount;
+    }
+
+    int getAnCount() {
+      return m_anCount;
+    }
+
+    int getNsCount() {
+      return m_nsCount;
+    }
+
+    int getArCount() {
+      return m_arCount;
+    }
+
+    string getQueryName() {
+      return m_qName;
     }
 
   protected:
