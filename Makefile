@@ -1,10 +1,27 @@
-.PHONY: build run
+.PHONY: build run test
+
+MAKEFLAGS = --no-print-directory
+BUILDDIR = ./build
+SERVERPID = server.PID
+COMPILED = Main
+TESTCOMPILED = MainTest
 
 build:
 	@echo "Building DNS server"
-	@mkdir -p build
-	@g++ -o build/Main ./main.cpp
+	@mkdir -p ${BUILDDIR}
+	@g++ -o ${BUILDDIR}/${COMPILED} ./main.cpp
 
 run:
 	@echo "Starting DNS server"
-	@./build/Main
+	@${BUILDDIR}/${COMPILED}
+
+test:
+	@$(MAKE) COMPILED=${TESTCOMPILED} build
+	@$(MAKE) COMPILED=${TESTCOMPILED} run & echo "$$!" > ${BUILDDIR}/${SERVERPID}
+	@dig @127.0.0.1 example.com -p 8080
+	@kill `cat ${BUILDDIR}/${SERVERPID}` && rm ${BUILDDIR}/${SERVERPID}
+	@rm ${BUILDDIR}/${TESTCOMPILED}
+
+clean:
+	@echo "Clearing out build directory"
+	@rm -rf ${BUILDDIR}
