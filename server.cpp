@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "query.cpp"
+
 using namespace std;
 
 void server() {
@@ -53,7 +55,16 @@ void server() {
       &addr_len
     );
 
-    cout << "\nClient: " << buffer << endl;
+    Query query = getQuery(buffer);
+
+    cout << "\nQueryId: " << query.getId() << endl;
+    for (const auto & iter : query.getFlags())
+      std::cout << iter.first << " = " << iter.second << std::endl;
+    cout << "\nQdCount: " << query.getQdCount() << endl;
+    cout << "\nAnCount: " << query.getAnCount() << endl;
+    cout << "\nNsCount: " << query.getNsCount() << endl;
+    cout << "\nArCount: " << query.getArCount() << endl;
+    cout << "\nQueryName: " << query.getQueryName() << endl;
 
     sendto(
       sockfd,
