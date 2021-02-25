@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #include "query.cpp"
+#include "zone.cpp"
 
 using namespace std;
 
@@ -56,6 +57,9 @@ void server() {
     );
 
     Query query = getQuery(buffer);
+
+    Zone zone = getZoneInfo(query.getQueryName());
+    cout << "\nZoneIp: " << zone.getIp() << ", ZoneDomain: " << zone.getDomain() << endl;
 
     cout << "\nQueryId: " << query.getId() << endl;
     for (const auto & iter : query.getFlags())
