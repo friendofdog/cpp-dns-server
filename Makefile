@@ -1,4 +1,4 @@
-.PHONY: build run test
+.PHONY: build run test clean
 
 MAKEFLAGS = --no-print-directory
 BUILDDIR = ./build/
@@ -10,7 +10,7 @@ TESTCOMPILED = MainTest
 build:
 	@echo "Building DNS server"
 	@mkdir -p ${BUILDDIR}
-	@g++ -o ${BUILDDIR}${COMPILED} ${SRCDIR}main.cpp
+	@g++ -std=c++17 -o ${BUILDDIR}${COMPILED} ${SRCDIR}main.cpp
 
 run:
 	@echo "Starting DNS server"
